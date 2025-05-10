@@ -1,0 +1,25 @@
+@use "@angular/material" as mat;
+@use "./helpers.scss";
+
+:root {
+  --mat-sys-primary: #00732f;
+  --mat-sys-secondary: #aa05a1;
+
+  --mdc-dialog-container-shape: 0px 0px 0px 0px;
+  --mat-dialog-container-max-width: 960px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  color-scheme: light;
+  //@include mat.theme(());
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

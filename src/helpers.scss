@@ -1,0 +1,105 @@
+$spacing: 5px;
+
+.d-flex {
+  display: flex;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.ma-auto {
+  margin: auto;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.pa-auto {
+  padding: auto;
+}
+.pl-auto {
+  padding-left: auto;
+}
+.pr-auto {
+  padding-right: auto;
+}
+.pt-auto {
+  padding-top: auto;
+}
+.pb-auto {
+  padding-bottom: auto;
+}
+
+$spacing-amounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+@each $space in $spacing-amounts {
+  .ma-#{$space} {
+    margin: #{$space * $spacing};
+  }
+
+  .ml-#{$space}, .mx-#{$space} {
+    margin-left: #{$space * $spacing};
+  }
+
+  .mr-#{$space}, .mx-#{$space} {
+    margin-right: #{$space * $spacing};
+  }
+
+  .mt-#{$space}, .my-#{$space} {
+    margin-top: #{$space * $spacing};
+  }
+
+  .mb-#{$space}, .my-#{$space} {
+    margin-bottom: #{$space * $spacing};
+  }
+
+  .m-#{$space} {
+    margin: #{$space * $spacing};
+  }
+
+  .pa-#{$space} {
+    padding: #{$space * $spacing};
+  }
+
+  .pl-#{$space}, .px-#{$space} {
+    padding-left: #{$space * $spacing};
+  }
+
+  .pr-#{$space}, .px-#{$space} {
+    padding-right: #{$space * $spacing};
+  }
+
+  .pt-#{$space}, .py-#{$space} {
+    padding-top: #{$space * $spacing};
+  }
+
+  .pb-#{$space}, .py-#{$space} {
+    padding-bottom: #{$space * $spacing};
+  }
+
+  .p-#{$space} {
+    padding: #{$space * $spacing};
+  }
+}
