@@ -1,29 +1,68 @@
 <div class="modal-container pa-2">
-  <div class="d-flex align-center">
-    <span mat-dialog-title class="flex-grow">Iniciar novas Entidades</span>
-    <span
-      mat-dialog-title
-      mat-button
-      class="close-button"
-      color="secondary"
-      (click)="closeDialog()"
-    >
-      X
-    </span>
+  <div mat-dialog-title class="d-flex align-center">
+    <span class="flex-grow">Iniciar novas Entidades</span>
+    <mat-icon class="close-button" (click)="closeDialog()">close</mat-icon>
   </div>
 
-  <mat-dialog-content>
-    <mat-card class="entity-instantiation-card pa-3">
+  <mat-dialog-content class="dialog-content">
+    <mat-card class="entity-instantiation-card pa-3" appearance="outlined">
       <div>
-        <h2 mat-card-title class="pl-3 pb-3">Entidades à inciar</h2>
-        <mat-card-content
-          >Após o início, os eventos serão disponibilizados para execução nos
-          dias que estão definidos em seus ciclos.</mat-card-content
-        >
+        <mat-card-header>
+          <mat-card-title>Entidades à inciar</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            Após o início, os eventos serão disponibilizados para execução nos
+            dias que estão definidos em seus ciclos.
+          </p>
+        </mat-card-content>
       </div>
+
       <div>
-        ejdiejdijedjejidjiej
+        <mat-card-content>
+          Após o início, os eventos serão disponibilizados para execução nos
+          dias que estão definidos em seus ciclos.
+        </mat-card-content>
       </div>
     </mat-card>
+
+    <mat-divider></mat-divider>
+
+    <div>
+      <div>
+        <div (click)="toggleCycleSelection()" class="cycle-selection-open">
+          <span
+            >Selecione ciclos
+            <span style="color: var(--mat-sys-outline)">(opcional)</span></span
+          >
+          <mat-icon
+            [class.open]="cycleSelectionOpen()"
+            class="cycle-selection-open-icon"
+            >arrow_drop_down</mat-icon
+          >
+        </div>
+      </div>
+
+      <div
+        class="cycle-selection-collapsible mt-2"
+        [class.open]="cycleSelectionOpen()"
+      >
+        <span>
+          Por padrão as entidades são selecionadas automaticamente de acordo com
+          os ciclos que você participa e suas prioridades
+        </span>
+      </div>
+    </div>
+
+    <mat-tree-node *matNodeDef="let node">
+      <button
+        matTreeNodeToggle
+        aria-label="toggle tree node"
+        [matTreeNodeToggleRecursive]="true"
+      >
+        asaskosakokosaoksako
+      </button>
+      {{ node.value }}
+    </mat-tree-node>
   </mat-dialog-content>
 </div>

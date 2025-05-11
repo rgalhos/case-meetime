@@ -3,10 +3,28 @@
 
 :root {
   --mat-sys-primary: #00732f;
-  --mat-sys-secondary: #aa05a1;
+  --mat-sys-secondary: #8eae00;
+  --mat-sys-error: ;
+  --color-info: #26b2d0;
+  --color-warn: #fea317;
 
   --mdc-dialog-container-shape: 0px 0px 0px 0px;
   --mat-dialog-container-max-width: 960px;
+
+  @include mat.card-overrides(
+    (
+      outlined-outline-color: #f5f5f5,
+      outlined-container-color: #f5f5f5,
+      outlined-container-shape: 5px 5px 5px 5px,
+      title-text-weight: 600,
+    )
+  );
+
+  @include mat.divider-overrides(
+    (
+      color: #dddddd,
+    )
+  );
 }
 
 html,

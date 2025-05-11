@@ -3,14 +3,46 @@
 }
 
 .close-button {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
+  cursor: pointer;
   color: gray;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .entity-instantiation-card {
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  background-color: gray;
+}
+
+.cycle-selection-open {
+  display: flex;
+  flex-grow: 1;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.cycle-selection-open-icon {
+  margin: -3px 0;
+  transition: transform 150ms linear;
+
+  &.open {
+    transform: rotate(-180deg) !important;
+  }
+}
+
+.cycle-selection-collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 350ms linear;
+
+  &.open {
+    max-height: 100vh;
+  }
 }
