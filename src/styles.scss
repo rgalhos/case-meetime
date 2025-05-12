@@ -4,7 +4,7 @@
 :root {
   --mat-sys-primary: #00732f;
   --mat-sys-secondary: #8eae00;
-  --mat-sys-error: ;
+  --mat-sys-error: #ff5852;
   --color-info: #26b2d0;
   --color-warn: #fea317;
 
@@ -40,4 +40,8 @@ html {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+table td {
+  align-items: center;
 }

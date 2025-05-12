@@ -44,25 +44,28 @@
       </div>
 
       <div
-        class="cycle-selection-collapsible mt-2"
+        class="cycle-selection-collapsible"
         [class.open]="cycleSelectionOpen()"
       >
-        <span>
+        <p>
           Por padrão as entidades são selecionadas automaticamente de acordo com
           os ciclos que você participa e suas prioridades
-        </span>
+        </p>
+
+        <cycle-selection-table
+          [cycles]="data.cycles"
+          (onCycleSelection)="onCycleSelection($event)"
+          (onCycleRemoval)="onCycleRemoval($event)"
+        ></cycle-selection-table>
       </div>
     </div>
 
-    <mat-tree-node *matNodeDef="let node">
-      <button
-        matTreeNodeToggle
-        aria-label="toggle tree node"
-        [matTreeNodeToggleRecursive]="true"
-      >
-        asaskosakokosaoksako
-      </button>
-      {{ node.value }}
-    </mat-tree-node>
+    <mat-divider></mat-divider>
+
+    <div>
+      <events-projection-chart
+        [eventsProjection]="eventsProjections()"
+      ></events-projection-chart>
+    </div>
   </mat-dialog-content>
 </div>

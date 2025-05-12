@@ -1,0 +1,22 @@
+div.name-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  .mat-icon {
+    transform: scale(0.82);
+  }
+
+  &[data-priority="HIGH"] .mat-icon {
+    color: #ff5852;
+  }
+
+  &[data-priority="MEDIUM"] .mat-icon {
+    color: #ffb025;
+  }
+
+  &[data-priority="LOW"] .mat-icon {
+    color: #66c88e;
+  }
+}
