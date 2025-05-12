@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Input,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import {
   MatCheckboxChange,
   MatCheckboxModule,
@@ -15,9 +6,10 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
-import { ECyclePriority, ICycle } from '../../../api/mock/mock.model';
+import { ICycle } from '../../../api/mock/mock.model';
 
 interface ICycleRow extends ICycle {
+  index?: number;
   availableToday: number;
 }
 
@@ -29,8 +21,7 @@ interface ICycleRow extends ICycle {
 })
 export class CycleSelectionTable {
   cycles = input.required<ICycle[]>();
-  onCycleSelection = output<ICycle>();
-  onCycleRemoval = output<ICycle>();
+  onSelectedCyclesUpdate = output<ICycle[]>();
   selectedCycles = signal<ICycle[]>([]);
 
   readonly displayedColumns = ['name', 'availableEntities', 'availableToday'];
@@ -50,12 +41,21 @@ export class CycleSelectionTable {
     return parsedCycles;
   }
 
+  ngOnInit() {
+    const highPriority = this.dataSource().filter((c) => c.priority === 'HIGH');
+    this.selectedCycles.set(highPriority);
+
+    this.onSelectedCyclesUpdate.emit(this.selectedCycles());
+  }
+
   onCycleChange(event: MatCheckboxChange, cycle: ICycle) {
     if (event.checked) {
-      this.onCycleSelection.emit(cycle);
+      this.selectedCycles.set([...this.selectedCycles(), cycle]);
     } else {
-      this.onCycleRemoval.emit(cycle);
+      this.selectedCycles.set(this.selectedCycles().filter((c) => c !== cycle));
     }
+
+    this.onSelectedCyclesUpdate.emit(this.selectedCycles());
   }
 
   private priorityCompareFn(a: ICycle, b: ICycle): number {

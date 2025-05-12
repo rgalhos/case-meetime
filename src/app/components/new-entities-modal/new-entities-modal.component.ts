@@ -2,24 +2,20 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
   MAT_DIALOG_DATA,
-  MatDialogContent,
+  MatDialogModule,
   MatDialogRef,
-  MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { EventsProjectionChart } from '../events-projection-chart/events-projection-chart.component';
+import { CycleSelectionTable } from '../cycle-selection-table/cycle-selection-table.component';
 import {
   ICycle,
-  ICycleEvent,
-  IEvent,
   IEventsProjection,
   IMockApiResponse,
 } from '../../../api/mock/mock.model';
-import { CycleSelectionTable } from '../cycle-selection-table/cycle-selection-table.component';
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'new-entities-modal',
@@ -27,8 +23,7 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './new-entities-modal.component.scss',
   imports: [
     MatCardModule,
-    MatDialogTitle,
-    MatDialogContent,
+    MatDialogModule,
     MatDivider,
     MatExpansionModule,
     MatTreeModule,
@@ -78,7 +73,6 @@ export class NewEntitiesModal {
       });
     }
 
-
     return newProjections;
   }
 
@@ -90,12 +84,7 @@ export class NewEntitiesModal {
     this.dialogRef.close();
   }
 
-  onCycleSelection(cycle: ICycle) {
-    console.log('novo', { cycle });
-    this.selectedCycles.set([...this.selectedCycles(), cycle]);
-  }
-
-  onCycleRemoval(cycle: ICycle) {
-    this.selectedCycles.set(this.selectedCycles().filter((x) => x !== cycle));
+  onSelectedCyclesUpdate(cycleList: ICycle[]) {
+    this.selectedCycles.set(cycleList);
   }
 }
