@@ -1,4 +1,12 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, model, signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {
   MAT_DIALOG_DATA,
@@ -6,8 +14,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
-import { MatTreeModule } from '@angular/material/tree';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { EventsProjectionChart } from '../events-projection-chart/events-projection-chart.component';
 import { CycleSelectionTable } from '../cycle-selection-table/cycle-selection-table.component';
@@ -16,17 +24,19 @@ import {
   IEventsProjection,
   IMockApiResponse,
 } from '../../../api/mock/mock.model';
+import { sumEvents } from '../../../lib/utils';
 
 @Component({
   selector: 'new-entities-modal',
   templateUrl: './new-entities-modal.component.html',
   styleUrl: './new-entities-modal.component.scss',
   imports: [
+    ReactiveFormsModule,
     MatCardModule,
     MatDialogModule,
     MatDivider,
     MatExpansionModule,
-    MatTreeModule,
+    MatInputModule,
     MatIcon,
     CycleSelectionTable,
     EventsProjectionChart,
@@ -35,11 +45,25 @@ import {
 export class NewEntitiesModal {
   readonly dialogRef = inject(MatDialogRef<this>);
   readonly data = inject<IMockApiResponse>(MAT_DIALOG_DATA);
+
+  readonly entityFormControl = new FormControl('', [
+    Validators.required,
+    Validators.min(1),
+  ]);
+
   readonly cycleSelectionOpen = signal(true);
   readonly selectedCycles = signal<ICycle[]>([]);
+  readonly entitesValue = model(1);
   readonly eventsProjections = computed(() =>
     this.applyProjections(this.data.eventsProjection, this.selectedCycles())
   );
+
+
+  readonly eventsToday = computed(() => this.calcEventsToday(this.data.cycles));
+
+  onEntityInput(x:any) {
+    console.log(x)
+  }
 
   private applyProjections(
     projections: IEventsProjection[],
@@ -74,6 +98,18 @@ export class NewEntitiesModal {
     }
 
     return newProjections;
+  }
+
+  private calcEventsToday(cycles: ICycle[]) {
+    return cycles
+      .map((cycle) => {
+        const today = new Date().getDay();
+        const events = cycle.structure.find((x) => x.day === today);
+        const availableToday = !!events ? sumEvents(events) : 0;
+
+        return availableToday;
+      })
+      .reduce((a, b) => a + b, 0);
   }
 
   toggleCycleSelection() {

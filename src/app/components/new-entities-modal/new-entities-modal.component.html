@@ -19,9 +19,39 @@
       </div>
 
       <div>
-        <mat-card-content>
-          Após o início, os eventos serão disponibilizados para execução nos
-          dias que estão definidos em seus ciclos.
+        <mat-card-content class="d-flex align-center flex-column">
+          <mat-form-field class="entity-input">
+            <input
+              matInput
+              min="1"
+              type="number"
+              [formControl]="entityFormControl"
+              [(ngModel)]="entitesValue"
+            />
+            <mat-icon matPrefix style="transform: scale(2)">
+              arrow_right
+            </mat-icon>
+            <span
+              matSuffix
+              style="color: var(--mat-sys-on-surface-variant)"
+              class="mr-4"
+            >
+              Entidades
+            </span>
+            @if (entityFormControl.hasError('min') &&
+            !entityFormControl.hasError('required')) {
+            <mat-error>
+              O valor deve ser maior que <strong>0</strong>
+            </mat-error>
+            } @if (entityFormControl.hasError('required')) {
+            <mat-error>Campo obrigatório</mat-error>
+            }
+          </mat-form-field>
+
+          <span class="mt-1">
+            Novos eventos para hoje:
+            <strong>{{ eventsToday() }} eventos</strong>
+          </span>
         </mat-card-content>
       </div>
     </mat-card>
@@ -53,6 +83,7 @@
         </p>
 
         <cycle-selection-table
+          [entitesValue]="entitesValue()"
           [cycles]="data.cycles"
           (onSelectedCyclesUpdate)="onSelectedCyclesUpdate($event)"
         ></cycle-selection-table>

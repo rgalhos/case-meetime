@@ -5,11 +5,12 @@ import {
 } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { FormsModule } from '@angular/forms';
 import { ICycle } from '../../../api/mock/mock.model';
+import { sumEvents } from '../../../lib/utils';
 
 interface ICycleRow extends ICycle {
   index?: number;
+  entities: number;
   availableToday: number;
 }
 
@@ -17,25 +18,32 @@ interface ICycleRow extends ICycle {
   selector: 'cycle-selection-table',
   templateUrl: './cycle-selection-table.component.html',
   styleUrl: './cycle-selection-table.component.scss',
-  imports: [FormsModule, MatCheckboxModule, MatIcon, MatTableModule],
+  imports: [MatCheckboxModule, MatIcon, MatTableModule],
 })
 export class CycleSelectionTable {
   cycles = input.required<ICycle[]>();
+  entitesValue = input.required<number>();
   onSelectedCyclesUpdate = output<ICycle[]>();
   selectedCycles = signal<ICycle[]>([]);
 
   readonly displayedColumns = ['name', 'availableEntities', 'availableToday'];
-  readonly dataSource = computed(() => this.parseTableData(this.cycles()));
+  readonly dataSource = computed(() => this.formatTableData(this.cycles()));
 
-  parseTableData(cycles: ICycle[]): ICycleRow[] {
+  formatTableData(cycles: ICycle[]): ICycleRow[] {
+    console.log({ sel: this.selectedCycles() });
+    let distrEntitiesValue = this.entitesValue();
+
     const parsedCycles = cycles.sort(this.priorityCompareFn).map((cycle) => {
       const today = new Date().getDay();
       const events = cycle.structure.find((x) => x.day === today);
-      const availableToday = !!events
-        ? events.meetings + events.emails + events.calls + events.follows
-        : 0;
+      const availableToday = !!events ? sumEvents(events) : 0;
+      const entities = Math.min(distrEntitiesValue, cycle.availableEntities);
+      distrEntitiesValue -= entities;
 
-      return { ...cycle, availableToday };
+      (<ICycleRow>cycle).entities = entities;
+      (<ICycleRow>cycle).availableToday = availableToday;
+
+      return cycle as ICycleRow;
     });
 
     return parsedCycles;
@@ -44,6 +52,19 @@ export class CycleSelectionTable {
   ngOnInit() {
     const highPriority = this.dataSource().filter((c) => c.priority === 'HIGH');
     this.selectedCycles.set(highPriority);
+
+    this.onSelectedCyclesUpdate.emit(this.selectedCycles());
+  }
+
+  ngOnChanges() {
+    for (const cycle of this.dataSource()) {
+      if (
+        cycle.entities === cycle.availableEntities &&
+        !this.selectedCycles().includes(cycle)
+      ) {
+        this.selectedCycles.set([...this.selectedCycles(), cycle]);
+      }
+    }
 
     this.onSelectedCyclesUpdate.emit(this.selectedCycles());
   }

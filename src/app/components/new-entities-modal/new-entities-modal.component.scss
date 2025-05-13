@@ -42,3 +42,26 @@
     max-height: 100vh;
   }
 }
+
+.entity-input {
+  --mat-sys-surface-variant: #fff;
+  --mdc-filled-text-field-container-shape: 0;
+}
+
+.mdc-line-ripple,
+.mdc-line-ripple::after,
+.mdc-line-ripple::before,
+.mat-form-field-underline {
+  display: none !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
