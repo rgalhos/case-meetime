@@ -99,8 +99,12 @@
     </div>
 
     <div class="modal-actions">
-      <button mat-stroked-button color="secondary">Fechar</button>
-      <button mat-flat-button>Iniciar novas entidades</button>
+      <button mat-stroked-button color="secondary" (click)="closeDialog()">
+        Fechar
+      </button>
+      <button mat-flat-button (click)="closeDialog()">
+        Iniciar novas entidades
+      </button>
     </div>
   </mat-dialog-content>
 </div>

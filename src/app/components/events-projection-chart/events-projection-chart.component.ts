@@ -12,7 +12,7 @@ import { getWeekday } from '../../../lib/utils';
 export class EventsProjectionChart {
   eventsProjection = input.required<IEventsProjection[]>();
   readonly chartData = computed(() =>
-    this.parseChartData(this.eventsProjection())
+    this.formatChartData(this.eventsProjection())
   );
 
   readonly chartOptions: ChartOptions = {
@@ -45,7 +45,7 @@ export class EventsProjectionChart {
     },
   };
 
-  parseChartData(eventsData: IEventsProjection[]): ChartData<'bar', unknown> {
+  formatChartData(eventsData: IEventsProjection[]): ChartData<'bar', unknown> {
     const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
     const data = eventsData.map(({ day, events }) => ({
