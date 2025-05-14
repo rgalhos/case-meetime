@@ -4,7 +4,7 @@
     <mat-icon class="close-button" (click)="closeDialog()">close</mat-icon>
   </div>
 
-  <mat-dialog-content class="dialog-content">
+  <mat-dialog-content class="modal-content">
     <mat-card class="entity-instantiation-card pa-3" appearance="outlined">
       <div>
         <mat-card-header>
@@ -96,6 +96,11 @@
       <events-projection-chart
         [eventsProjection]="eventsProjections()"
       ></events-projection-chart>
+    </div>
+
+    <div class="modal-actions">
+      <button mat-stroked-button color="secondary">Fechar</button>
+      <button mat-flat-button>Iniciar novas entidades</button>
     </div>
   </mat-dialog-content>
 </div>

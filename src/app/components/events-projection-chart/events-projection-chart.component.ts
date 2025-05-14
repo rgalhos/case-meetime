@@ -2,6 +2,7 @@ import { Component, computed, input, Input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { IEventsProjection } from '../../../api/mock/mock.model';
+import { getWeekday } from '../../../lib/utils';
 
 @Component({
   selector: 'events-projection-chart',
@@ -52,8 +53,7 @@ export class EventsProjectionChart {
       ...events,
     }));
 
-    const today = new Date().getDay();
-    // const today = 2; // Teste: Terça
+    const today = getWeekday();
     if (today > 0 && today < 6) {
       data[today - 1].x = 'Hoje';
 

@@ -13,6 +13,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +25,7 @@ import {
   IEventsProjection,
   IMockApiResponse,
 } from '../../../api/mock/mock.model';
-import { sumEvents } from '../../../lib/utils';
+import { countEventsForToday } from '../../../lib/utils';
 
 @Component({
   selector: 'new-entities-modal',
@@ -32,6 +33,7 @@ import { sumEvents } from '../../../lib/utils';
   styleUrl: './new-entities-modal.component.scss',
   imports: [
     ReactiveFormsModule,
+    MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatDivider,
@@ -51,19 +53,14 @@ export class NewEntitiesModal {
     Validators.min(1),
   ]);
 
-  readonly cycleSelectionOpen = signal(true);
+  readonly cycleSelectionOpen = signal(false);
   readonly selectedCycles = signal<ICycle[]>([]);
   readonly entitesValue = model(1);
   readonly eventsProjections = computed(() =>
     this.applyProjections(this.data.eventsProjection, this.selectedCycles())
   );
 
-
   readonly eventsToday = computed(() => this.calcEventsToday(this.data.cycles));
-
-  onEntityInput(x:any) {
-    console.log(x)
-  }
 
   private applyProjections(
     projections: IEventsProjection[],
@@ -101,15 +98,7 @@ export class NewEntitiesModal {
   }
 
   private calcEventsToday(cycles: ICycle[]) {
-    return cycles
-      .map((cycle) => {
-        const today = new Date().getDay();
-        const events = cycle.structure.find((x) => x.day === today);
-        const availableToday = !!events ? sumEvents(events) : 0;
-
-        return availableToday;
-      })
-      .reduce((a, b) => a + b, 0);
+    return cycles.map(countEventsForToday).reduce((a, b) => a + b, 0);
   }
 
   toggleCycleSelection() {

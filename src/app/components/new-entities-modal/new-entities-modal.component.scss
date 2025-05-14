@@ -5,13 +5,22 @@
   color: gray;
 }
 
-.dialog-content {
+.modal-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+.modal-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .entity-instantiation-card {
+  background-color: var(--color-gray-lighter);
   display: flex;
   flex-direction: row;
   flex-grow: 1;

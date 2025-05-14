@@ -1,9 +1,6 @@
-<table mat-table [dataSource]="dataSource()" class="mat-elevation-z8">
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-  <!-- Name Column -->
+<table mat-table [dataSource]="dataSource()" class="mt-1">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <th mat-header-cell *matHeaderCellDef>Ciclos</th>
     <td mat-cell *matCellDef="let element; let i = index">
       <div class="name-row" [attr.data-priority]="element.priority">
         <mat-checkbox
@@ -38,6 +35,13 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="info">
+    <th mat-header-cell *matHeaderCellDef colspan="3">
+      Ciclos com entidades disponíveis ({{ cycles().length }})
+    </th>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="secondHeaderRow"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
